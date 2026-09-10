@@ -1,0 +1,30 @@
+{
+  "channels": [
+    { "id": "UChZUFbwfS7Rasxc9nsmH7Lg", "name": "ねこまみれ", "kind": "cat" },
+    { "id": "UC2xC5ClJ4oWVUTgANn9FGgQ", "name": "猫吃播ASMR", "kind": "cat" },
+    { "id": "UCOnLLBm_rhDpj-sqhc5vk2w", "name": "ロケ猫日記", "kind": "cat" },
+    { "id": "UCVQMVs5AKXzMRdey0E-SWiw", "name": "ニコメシカリカリ", "kind": "cat" },
+    { "id": "UCOHS0QIVvgHw70NQhGT2ZOw", "name": "まーくんと猫の日常", "kind": "cat", "mixed": true },
+    { "id": "UCV2xU_xCFVXI3HgWuWMUqUw", "name": "Crunchycat Luna", "kind": "cat" },
+    { "id": "UCGxEp512rdjIOlWaNOVi7MA", "name": "nomnomsammieboy", "kind": "cat", "mixed": true },
+    { "id": "UCgnD7NfXTNL8C-CDF6qtHFg", "name": "Annie Phannie Bannie", "kind": "cat" },
+    { "id": "UCsi6uoZwg_g1cgakWN_GjPA", "name": "和み柴犬つむ", "kind": "dog" },
+    { "id": "UCsYwtFvsN64AEBYX2DYO5hQ", "name": "バウンス チャンネル", "kind": "dog" },
+    { "id": "UCmpJ1DrrN84EDYSAIHCHTUQ", "name": "섭이는못말려", "kind": "dog", "mixed": true },
+    { "id": "UCv2LHeQeaE59FQw7KfpPz1Q", "name": "꼬미와 루피 ASMR", "kind": "dog", "mixed": true },
+    { "id": "UCyY5cwUvjVgNHbEV0K_6mxw", "name": "Dog & Mukbang", "kind": "dog" },
+    { "id": "UCEVE86jZnBS5txB0dAqOazg", "name": "Doggy Asmr", "kind": "dog" },
+    { "id": "UCVzqmQ7itS5NoMMJBzlYXXA", "name": "petmukbang", "kind": "cat" }
+  ],
+  "animalKeywords": [
+    "猫", "ねこー", "ねこ", "ネコ", "子猫", "子ねこ", "犬", "いぬ", "イヌ", "子犬", "子いぬ",
+    "柴犬", "ワンちゃん", "にゃんこ", "毛もふ", "cat", "kitten", "kitty", "dog", "puppy", "pup", "paw",
+    "猫咪", "强狗", "狗", "고양이", "강아지", "개"
+  ],
+  "keywords": [
+    "ごはん", "ご飯", "カリカリ", "咀嚼", "食べ", "食事", "もぐもぐ", "ちゅ〜る", "ちゅーる",
+    "おやつ", "ディナー", "朝食", "モッパン", "エサ", "餌", "給餌",
+    "eating", "eat", "mukbang", "먹방", "吃播", "吃", "crunch", "crunchy", "kibble",
+    "snack", "treat", "meal", "dinner", "breakfast", "feast", "feeding", "food", "asmr"
+  ]
+}

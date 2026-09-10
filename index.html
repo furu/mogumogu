@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>もぐもぐチャンネル｜犬と猫の食事風景</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <h1 class="logo">もぐもぐチャンネル</h1>
+  <div class="filters" role="group" aria-label="表示する動物">
+    <button class="chip is-active" data-filter="all">すべて</button>
+    <button class="chip" data-filter="dog">🐶 いぬ</button>
+    <button class="chip" data-filter="cat">🐱 ねこ</button>
+  </div>
+  <button id="soundToggle" class="sound" aria-pressed="false">🔇 音を出す</button>
+</header>
+
+<main id="feed" class="feed" tabindex="0" aria-label="食事風景フィード"></main>
+
+<template id="cardTpl">
+  <article class="card">
+    <div class="card__thumb"></div>
+    <div class="card__stage"><div class="card__player"></div></div>
+    <div class="card__shade"></div>
+    <div class="card__meta">
+      <p class="card__title"></p>
+      <p class="card__sub"></p>
+      <a class="card__source" target="_blank" rel="noopener">YouTubeで見る ↗</a>
+    </div>
+    <button class="card__like" aria-label="いやされた">🤍</button>
+  </article>
+</template>
+
+<p class="hint" id="hint">↓ スクロールでずっと見られます</p>
+<script src="app.js" type="module"></script>
+<noscript>このサイトはJavaScriptが必要です。</noscript>
+</body>
+</html>
