@@ -100,47 +100,19 @@ html, body {
   border: 0;
 }
 
-/* Portrait uploads are letterboxed inside the 16:9 embed, so the iframe is
-   widened until the pillarboxes fall outside the stage. */
 .card--vertical .card__stage {
-  width: min(94%, calc(94dvh * 9 / 16));
+  width: min(94%, calc(88dvh * 9 / 16));
   aspect-ratio: 9 / 16;
 }
 
-.card--vertical .card__stage iframe {
-  left: -108.02%;
-  width: 316.05%;
-}
-
+/* Decoration only: playback is driven by the YouTube player, so nothing may
+   intercept clicks over the stage. */
 .card__shade {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, transparent 30%, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
 }
-
-/* Hint only: clicks must reach the iframe, because playing with sound needs a
-   real user gesture inside the YouTube frame. */
-.card__state {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 76px;
-  height: 76px;
-  margin: -38px 0 0 -38px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-  color: var(--fg);
-  font-size: 26px;
-  line-height: 76px;
-  text-align: center;
-  pointer-events: none;
-  opacity: 0;
-  transform: scale(0.9);
-  transition: opacity 0.2s, transform 0.2s;
-}
-
-.card--paused .card__state { opacity: 1; transform: scale(1); }
 
 .card--unavailable .card__stage { opacity: 0.15; }
 

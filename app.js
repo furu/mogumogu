@@ -70,7 +70,7 @@ async function mountPlayer(card) {
     playerVars: {
       autoplay: 1,
       mute: 1,
-      controls: 0,
+      controls: 1,
       loop: 1,
       playlist: videoId,
       rel: 0,
@@ -84,8 +84,6 @@ async function mountPlayer(card) {
         else e.target.unMute();
         e.target.playVideo();
       },
-      onStateChange: (e) =>
-        paintToggle(card, e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.BUFFERING),
       onError: () => replaceCard(card),
     },
   });
@@ -112,11 +110,6 @@ function replaceCard(card) {
   if (isTail) tailWatcher.observe(fresh);
 }
 
-function paintToggle(card, playing) {
-  card.classList.toggle("card--playing", playing);
-  card.classList.toggle("card--paused", !playing);
-}
-
 function makeCard(clip) {
   const card = tpl.content.firstElementChild.cloneNode(true);
   card.dataset.videoId = clip.videoId;
@@ -126,7 +119,6 @@ function makeCard(clip) {
   card.querySelector(".card__thumb").style.backgroundImage =
     `url(https://i.ytimg.com/vi/${clip.videoId}/hqdefault.jpg)`;
   card.querySelector(".card__source").href = `https://www.youtube.com/watch?v=${clip.videoId}`;
-  paintToggle(card, true);
 
   const like = card.querySelector(".card__like");
   const render = () => {
