@@ -112,13 +112,49 @@ html, body {
   width: 316.05%;
 }
 
-/* Sits over the iframe so wheel/touch gestures scroll the feed instead of
-   being swallowed by the YouTube player. */
 .card__shade {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, transparent 30%, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
 }
+
+/* Sits over the iframe so wheel/touch gestures scroll the feed instead of
+   being swallowed by the YouTube player, and doubles as the play control. */
+.card__toggle {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: none;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.card__toggle-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  font-size: 28px;
+  line-height: 72px;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.card--paused .card__toggle-icon,
+.card__toggle:hover .card__toggle-icon,
+.card__toggle:focus-visible .card__toggle-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.card--playing .card__toggle-icon { font-size: 24px; }
 
 .card--unavailable .card__stage { opacity: 0.15; }
 
@@ -144,7 +180,7 @@ html, body {
 
 .card__source:hover { opacity: 1; }
 
-.card__meta, .card__like { z-index: 2; }
+.card__meta, .card__like { z-index: 4; }
 
 .card__like {
   position: absolute;
