@@ -84,7 +84,8 @@ async function mountPlayer(card) {
         else e.target.unMute();
         e.target.playVideo();
       },
-      onStateChange: (e) => paintToggle(card, e.data === YT.PlayerState.PLAYING),
+      onStateChange: (e) =>
+        paintToggle(card, e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.BUFFERING),
       onError: () => replaceCard(card),
     },
   });
@@ -114,15 +115,6 @@ function replaceCard(card) {
 function paintToggle(card, playing) {
   card.classList.toggle("card--playing", playing);
   card.classList.toggle("card--paused", !playing);
-  card.querySelector(".card__toggle-icon").textContent = playing ? "❚❚" : "▶";
-}
-
-// Sound needs a user gesture, so play/unmute requests are issued from click handlers.
-async function play(card) {
-  const player = players.get(card) ?? (await mountPlayer(card));
-  if (muted) player.mute?.();
-  else player.unMute?.();
-  player.playVideo?.();
 }
 
 function makeCard(clip) {
@@ -134,13 +126,7 @@ function makeCard(clip) {
   card.querySelector(".card__thumb").style.backgroundImage =
     `url(https://i.ytimg.com/vi/${clip.videoId}/hqdefault.jpg)`;
   card.querySelector(".card__source").href = `https://www.youtube.com/watch?v=${clip.videoId}`;
-  paintToggle(card, false);
-
-  card.querySelector(".card__toggle").addEventListener("click", () => {
-    const player = players.get(card);
-    if (player && card.classList.contains("card--playing")) player.pauseVideo?.();
-    else play(card);
-  });
+  paintToggle(card, true);
 
   const like = card.querySelector(".card__like");
   const render = () => {
@@ -202,8 +188,21 @@ soundToggle.addEventListener("click", () => {
     if (muted) player?.mute?.();
     else player?.unMute?.();
   });
-  if (!muted && current) play(current);
+  // Unmuted playback needs a gesture inside the YouTube frame, so a blocked
+  // player just shows the play hint until the video itself is clicked.
+  if (!muted) {
+    players.get(current)?.playVideo?.();
+    showHint("動画をクリックすると音つきで再生します");
+  }
 });
+
+let hintTimer;
+function showHint(text) {
+  hint.textContent = text;
+  hint.classList.remove("is-hidden");
+  clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => hint.classList.add("is-hidden"), 5000);
+}
 
 document.querySelectorAll(".chip").forEach((chip) => {
   chip.addEventListener("click", () => {
