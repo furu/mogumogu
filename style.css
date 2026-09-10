@@ -100,23 +100,17 @@ html, body {
   border: 0;
 }
 
-/* Portrait uploads are letterboxed inside the 16:9 embed, so the iframe is
-   widened until the pillarboxes fall outside the stage. */
 .card--vertical .card__stage {
-  width: min(94%, calc(94dvh * 9 / 16));
+  width: min(94%, calc(88dvh * 9 / 16));
   aspect-ratio: 9 / 16;
 }
 
-.card--vertical .card__stage iframe {
-  left: -108.02%;
-  width: 316.05%;
-}
-
-/* Sits over the iframe so wheel/touch gestures scroll the feed instead of
-   being swallowed by the YouTube player. */
+/* Decoration only: playback is driven by the YouTube player, so nothing may
+   intercept clicks over the stage. */
 .card__shade {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, transparent 30%, transparent 55%, rgba(0, 0, 0, 0.6) 100%);
 }
 
@@ -144,7 +138,7 @@ html, body {
 
 .card__source:hover { opacity: 1; }
 
-.card__meta, .card__like { z-index: 2; }
+.card__meta, .card__like { z-index: 4; }
 
 .card__like {
   position: absolute;

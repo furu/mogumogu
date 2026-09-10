@@ -10,6 +10,7 @@ let filter = "all";
 let muted = true;
 let catalog = [];
 let queue = [];
+let current = null;
 const likes = new Map();
 const players = new WeakMap();
 
@@ -41,6 +42,7 @@ const viewport = new IntersectionObserver(
     for (const entry of entries) {
       const player = players.get(entry.target);
       if (entry.isIntersecting) {
+        current = entry.target;
         if (player) player.playVideo?.();
         else mountPlayer(entry.target);
       } else {
@@ -60,7 +62,7 @@ const tailWatcher = new IntersectionObserver(
 
 async function mountPlayer(card) {
   await apiReady;
-  if (players.has(card)) return;
+  if (players.has(card)) return players.get(card);
   const host = card.querySelector(".card__player");
   const videoId = card.dataset.videoId;
   const player = new YT.Player(host, {
@@ -68,7 +70,7 @@ async function mountPlayer(card) {
     playerVars: {
       autoplay: 1,
       mute: 1,
-      controls: 0,
+      controls: 1,
       loop: 1,
       playlist: videoId,
       rel: 0,
@@ -82,11 +84,30 @@ async function mountPlayer(card) {
         else e.target.unMute();
         e.target.playVideo();
       },
-      // Some videos block embedding; skip straight to the next clip.
-      onError: () => card.classList.add("card--unavailable"),
+      onError: () => replaceCard(card),
     },
   });
   players.set(card, player);
+  return player;
+}
+
+// Some videos disallow embedding, so the card is swapped for another clip.
+function replaceCard(card) {
+  const attempts = Number(card.dataset.attempts ?? 0);
+  players.get(card)?.destroy?.();
+  players.delete(card);
+  viewport.unobserve(card);
+  if (attempts >= 3) {
+    card.classList.add("card--unavailable");
+    return;
+  }
+  const isTail = card === feed.lastElementChild;
+  tailWatcher.unobserve(card);
+  const fresh = makeCard(nextClip());
+  fresh.dataset.attempts = String(attempts + 1);
+  if (current === card) current = fresh;
+  card.replaceWith(fresh);
+  if (isTail) tailWatcher.observe(fresh);
 }
 
 function makeCard(clip) {
@@ -145,6 +166,7 @@ function reset() {
   });
   feed.replaceChildren();
   feed.scrollTop = 0;
+  current = null;
   queue = [];
   appendBatch();
 }
@@ -158,7 +180,21 @@ soundToggle.addEventListener("click", () => {
     if (muted) player?.mute?.();
     else player?.unMute?.();
   });
+  // Unmuted playback needs a gesture inside the YouTube frame, so a blocked
+  // player just shows the play hint until the video itself is clicked.
+  if (!muted) {
+    players.get(current)?.playVideo?.();
+    showHint("動画をクリックすると音つきで再生します");
+  }
 });
+
+let hintTimer;
+function showHint(text) {
+  hint.textContent = text;
+  hint.classList.remove("is-hidden");
+  clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => hint.classList.add("is-hidden"), 5000);
+}
 
 document.querySelectorAll(".chip").forEach((chip) => {
   chip.addEventListener("click", () => {
